@@ -161,7 +161,8 @@ def main():
         network_data = None
         print("=> creating model '{}'".format(args.arch))
 
-    model = models.__dict__[args.arch]( data = network_data).cuda()
+    #model = models.__dict__[args.arch]( data = network_data).cuda()
+    model = models.__dict__[args.arch](pretrained=True).cuda()
     model = torch.nn.DataParallel(model).cuda()
     cudnn.benchmark = True
 

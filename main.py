@@ -66,7 +66,7 @@ parser.add_argument('--additional_step', default= 100000, help='the additional i
 
 # ============== hyper-param ====================
 parser.add_argument('--pos_weight', '-p_w', default=0.003, type=float, help='weight of the pos term')
-parser.add_argument('--downsize', default=16, type=float,help='grid cell size for superpixel training ')
+parser.add_argument('--downsize', default=8, type=float,help='grid cell size for superpixel training ')
 
 # ================= other setting ===================
 parser.add_argument('--gpu', default= '0', type=str, help='gpu id')

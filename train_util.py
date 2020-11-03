@@ -4,9 +4,9 @@ import numpy as np
 from skimage.segmentation import mark_boundaries
 import cv2
 
-import sys
-sys.path.append('./third_party/cython')
-from connectivity import enforce_connectivity
+#import sys
+#sys.path.append('./third_party/cython')
+#from connectivity import enforce_connectivity
 
 def init_spixel_grid(args,  b_train=True):
     if b_train:

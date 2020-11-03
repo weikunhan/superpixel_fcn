@@ -236,6 +236,12 @@ class ResNet(nn.Module):
     def forward(self, x: Tensor) -> Tensor:
         return self._forward_impl(x)
 
+    def weight_parameters(self):
+        return [param for name, param in self.named_parameters() if 'weight' in name]
+
+    def bias_parameters(self):
+        return [param for name, param in self.named_parameters() if 'bias' in name]
+
 
 def _resnet(
     arch: str,

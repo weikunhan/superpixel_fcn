@@ -176,14 +176,6 @@ class ResNet(nn.Module):
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         self.layer1 = self._make_layer(block, 64, layers[0])
-        self.layer2 = self._make_layer(block, 128, layers[1], stride=2,
-                                       dilate=replace_stride_with_dilation[0])
-        self.layer3 = self._make_layer(block, 256, layers[2], stride=2,
-                                       dilate=replace_stride_with_dilation[1])
-        self.layer4 = self._make_layer(block, 512, layers[3], stride=2,
-                                       dilate=replace_stride_with_dilation[2])
-        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.fc = nn.Linear(512 * block.expansion, num_classes)
         self.conv2 = nn.Conv2d(self.inplanes, 9, kernel_size=1, stride=1, bias=False)
         self.softmax = nn.Softmax(1)
 
@@ -263,7 +255,10 @@ def _resnet(
     if pretrained:
         state_dict = load_state_dict_from_url(model_urls[arch],
                                               progress=progress)
-        model.load_state_dict(state_dict)
+        model_dict = model.state_dict()
+        state_dict = {key: value for key, value in state_dict.items() if key in model_dict}
+        model_dict.update(state_dict) 
+        model.load_state_dict(model_dict)
     return model
 
 

@@ -1,8 +1,10 @@
 import torch
-from torch import Tensor
 import torch.nn as nn
+from torch import Tensor
 from .utils import load_state_dict_from_url
 from typing import Type, Any, Callable, Union, List, Optional
+
+from .aspp import ASPP
 
 
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
@@ -176,7 +178,7 @@ class ResNet(nn.Module):
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         self.layer1 = self._make_layer(block, 64, layers[0])
-        self.conv2 = nn.Conv2d(self.inplanes, 9, kernel_size=1, stride=1, bias=False)
+        self.aspp = ASPP(in_channels=256, atrous_rates=[1, 6, 12, 18], out_channels=9)
         self.softmax = nn.Softmax(1)
 
         for m in self.modules():
@@ -227,10 +229,10 @@ class ResNet(nn.Module):
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)
+        #x = self.maxpool(x)
 
-        x = self.layer1(x)
-        x = self.conv2(x)
-        x = nn.functional.interpolate(x, (h, w), mode="bilinear", align_corners=False)
+        out = self.layer1(x)
+        x = self.aspp(x)
         x = self.softmax(x)
         
         return x

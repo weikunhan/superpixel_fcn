@@ -1,4 +1,3 @@
-  
 import torch
 import torch.nn as nn
 
@@ -29,7 +28,7 @@ class ASPPPooling(nn.Sequential):
 
 
 class ASPP(nn.Module):
-    def __init__(self, in_channels, atrous_rates, out_channels=256):
+    def __init__(self, in_channels, atrous_rates, out_channels):
         super(ASPP, self).__init__()
         modules = []
         modules.append(nn.Sequential(
@@ -44,8 +43,7 @@ class ASPP(nn.Module):
         self.project = nn.Sequential(
             nn.Conv2d(len(self.convs) * out_channels, out_channels, 1, bias=False),
             nn.BatchNorm2d(out_channels),
-            nn.ReLU(),
-            nn.Dropout(0.5))
+            nn.ReLU())
 
     def forward(self, x):
         res = []
@@ -53,3 +51,30 @@ class ASPP(nn.Module):
             res.append(conv(x))
         res = torch.cat(res, dim=1)
         return self.project(res)
+
+
+class Decoder(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        super(Decoder, self).__init__()
+        self.conv1 = nn.Conv2d(in_channels, 48, kernel_size=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(48)
+        self.relu = nn.ReLU()
+        self.last_conv = nn.Sequential(
+            nn.Conv2d(304, 256, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.BatchNorm2d(256),
+            nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.BatchNorm2d(256),
+            nn.ReLU(),
+            nn.Dropout(0.1),
+            nn.Conv2d(256, out_channels, kernel_size=1, stride=1))
+
+    def forward(self, x, out):
+        out = self.conv1(out)
+        out = self.bn1(out)
+        out = self.relu(out)
+        x = nn.functional.interpolate(x, (out.size()[2:]), mode='bilinear', align_corners=True)
+        x = torch.cat((x, out), dim=1)
+        x = self.last_conv(x)
+        return x

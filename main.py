@@ -56,7 +56,7 @@ parser.add_argument('--epoch_size', default= 6000,  help='choose any value > 408
 parser.add_argument('-b', '--batch-size', default=4, type=int,   metavar='N', help='mini-batch size')
 
 parser.add_argument('--solver', default='adam',choices=['adam','sgd'], help='solver algorithms, we use adam')
-parser.add_argument('--lr', '--learning-rate', default=0.00005, type=float,metavar='LR', help='initial learning rate')
+parser.add_argument('--lr', '--learning-rate', default=0.0001, type=float,metavar='LR', help='initial learning rate')
 parser.add_argument('--momentum', default=0.9, type=float, metavar='M',  help='momentum for sgd, alpha parameter for adam')
 parser.add_argument('--beta', default=0.999, type=float, metavar='M',   help='beta parameter for adam')
 parser.add_argument('--weight_decay', '--wd', default=4e-4, type=float, metavar='W', help='weight decay')
@@ -66,7 +66,7 @@ parser.add_argument('--additional_step', default= 100000, help='the additional i
 
 # ============== hyper-param ====================
 parser.add_argument('--pos_weight', '-p_w', default=0.003, type=float, help='weight of the pos term')
-parser.add_argument('--downsize', default=8, type=float,help='grid cell size for superpixel training ')
+parser.add_argument('--downsize', default=16, type=float,help='grid cell size for superpixel training ')
 
 # ================= other setting ===================
 parser.add_argument('--gpu', default= '0', type=str, help='gpu id')
@@ -162,7 +162,7 @@ def main():
         print("=> creating model '{}'".format(args.arch))
 
     #model = models.__dict__[args.arch]( data = network_data).cuda()
-    model = models.__dict__[args.arch](pretrained=True).cuda()
+    model = models.__dict__[args.arch](data=network_data, pretrained=True).cuda()
     model = torch.nn.DataParallel(model).cuda()
     cudnn.benchmark = True
 

@@ -43,7 +43,7 @@ record the absolute path of the images, named as ```train.txt```, ```val.txt```,
 ## Training
 Once the data is prepared, we should be able to train the model by running the following command
 ```
-python main.py --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR>
+python main.py --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --arch=resnet50 --load_weights
 ```
 
 if we wish to continue a train process or fine-tune from a pre-trained model, we can run 

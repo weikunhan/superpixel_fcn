@@ -53,7 +53,7 @@ parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',help='nu
 parser.add_argument('--epochs', default=3000000, type=int, metavar='N', help='number of total epoches, make it big enough to follow the iteration maxmium')
 parser.add_argument('--start_epoch', default=0, type=int, metavar='N',  help='manual epoch number (useful on restarts)')
 parser.add_argument('--epoch_size', default= 6000,  help='choose any value > 408 to use all the train and val data')
-parser.add_argument('-b', '--batch-size', default=4, type=int,   metavar='N', help='mini-batch size')
+parser.add_argument('-b', '--batch-size', default=8, type=int,   metavar='N', help='mini-batch size')
 
 parser.add_argument('--solver', default='adam',choices=['adam','sgd'], help='solver algorithms, we use adam')
 parser.add_argument('--lr', '--learning-rate', default=0.0001, type=float,metavar='LR', help='initial learning rate')
@@ -61,7 +61,7 @@ parser.add_argument('--momentum', default=0.9, type=float, metavar='M',  help='m
 parser.add_argument('--beta', default=0.999, type=float, metavar='M',   help='beta parameter for adam')
 parser.add_argument('--weight_decay', '--wd', default=4e-4, type=float, metavar='W', help='weight decay')
 parser.add_argument('--bias_decay', default=0, type=float, metavar='B', help='bias decay, we never use it')
-parser.add_argument('--milestones', default=[200000], metavar='N', nargs='*', help='epochs at which learning rate is divided by 2')
+parser.add_argument('--milestones', default=[200000, 400000], metavar='N', nargs='*', help='epochs at which learning rate is divided by 2')
 parser.add_argument('--additional_step', default= 100000, help='the additional iteration, after lr decay')
 
 # ============== hyper-param ====================
@@ -162,7 +162,7 @@ def main():
         print("=> creating model '{}'".format(args.arch))
 
     #model = models.__dict__[args.arch]( data = network_data).cuda()
-    model = models.__dict__[args.arch](data=network_data, pretrained=True).cuda()
+    model = models.__dict__[args.arch](data=network_data).cuda()
     model = torch.nn.DataParallel(model).cuda()
     cudnn.benchmark = True
 

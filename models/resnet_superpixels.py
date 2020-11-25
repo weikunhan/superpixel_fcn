@@ -43,7 +43,8 @@ class ASPP(nn.Module):
         self.project = nn.Sequential(
             nn.Conv2d(len(self.convs) * out_channels, out_channels, 1, bias=False),
             nn.BatchNorm2d(out_channels),
-            nn.ReLU())
+            nn.ReLU(),
+            nn.Dropout(0.5))
 
     def forward(self, x):
         res = []
@@ -59,22 +60,20 @@ class Decoder(nn.Module):
         self.conv1 = nn.Conv2d(in_channels, 48, kernel_size=1, bias=False)
         self.bn1 = nn.BatchNorm2d(48)
         self.relu = nn.ReLU()
-        self.last_conv = nn.Sequential(
+        self.convs = nn.Sequential(
             nn.Conv2d(304, 256, kernel_size=3, stride=1, padding=1, bias=False),
             nn.BatchNorm2d(256),
             nn.ReLU(),
             nn.Dropout(0.5),
-            nn.Conv2d(256, 256, kernel_size=3, stride=1, padding=1, bias=False),
-            nn.BatchNorm2d(256),
+            nn.Conv2d(256, out_channels, kernel_size=3, stride=1, padding=1, bias=False),
+            nn.BatchNorm2d(out_channels),
             nn.ReLU(),
-            nn.Dropout(0.1),
-            nn.Conv2d(256, out_channels, kernel_size=1, stride=1))
+            nn.Dropout(0.1))
 
     def forward(self, x, out):
         out = self.conv1(out)
         out = self.bn1(out)
         out = self.relu(out)
-        x = nn.functional.interpolate(x, (out.size()[2:]), mode='bilinear', align_corners=True)
         x = torch.cat((x, out), dim=1)
-        x = self.last_conv(x)
+        x = self.convs(x)
         return x

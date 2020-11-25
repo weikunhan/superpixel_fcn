@@ -75,6 +75,7 @@ parser.add_argument('--record_freq', '-rf', default=5, type=int,  help='record f
 parser.add_argument('--label_factor', default=5, type=int, help='constant multiplied to label index for viz.')
 parser.add_argument('--pretrained', dest='pretrained', default=None, help='path to pre-trained model')
 parser.add_argument('--no-date', action='store_true',  help='don\'t append date timestamp to folder' )
+parser.add_argument('--load_weights', action='store_true', help='use pretrained ResNet Layer 1')
 
 
 
@@ -161,8 +162,11 @@ def main():
         network_data = None
         print("=> creating model '{}'".format(args.arch))
 
-    #model = models.__dict__[args.arch]( data = network_data).cuda()
-    model = models.__dict__[args.arch](data=network_data).cuda()
+    if args.load_weights:
+        model = models.__dict__[args.arch](data=network_data, pretrained=True).cuda()
+    else:
+        model = models.__dict__[args.arch](data=network_data).cuda()
+
     model = torch.nn.DataParallel(model).cuda()
     cudnn.benchmark = True
 

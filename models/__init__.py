@@ -1,2 +1,2 @@
 from .Spixel_single_layer import *
-from .resnet_layer1 import *
+from .spixelnet_resnet import *

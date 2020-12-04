@@ -61,8 +61,8 @@ parser.add_argument('--momentum', default=0.9, type=float, metavar='M',  help='m
 parser.add_argument('--beta', default=0.999, type=float, metavar='M',   help='beta parameter for adam')
 parser.add_argument('--weight_decay', '--wd', default=4e-4, type=float, metavar='W', help='weight decay')
 parser.add_argument('--bias_decay', default=0, type=float, metavar='B', help='bias decay, we never use it')
-parser.add_argument('--milestones', default=[200000, 400000], metavar='N', nargs='*', help='epochs at which learning rate is divided by 2')
-parser.add_argument('--additional_step', default= 100000, help='the additional iteration, after lr decay')
+parser.add_argument('--milestones', default=[100000, 200000], metavar='N', nargs='*', help='epochs at which learning rate is divided by 2')
+parser.add_argument('--additional_step', default= 50000, help='the additional iteration, after lr decay')
 
 # ============== hyper-param ====================
 parser.add_argument('--pos_weight', '-p_w', default=0.003, type=float, help='weight of the pos term')

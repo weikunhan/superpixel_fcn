@@ -23,7 +23,7 @@ from .aspp import ASPP
 from .decoder import Decoder
 
 
-__all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
+__all__ = ['ResNet', 'resnet34', 'resnet50', 'resnet101',
            'resnet152', 'resnext50_32x4d', 'resnext101_32x8d',
            'wide_resnet50_2', 'wide_resnet101_2']
 
@@ -231,8 +231,8 @@ class ResNet(nn.Module):
 
         return nn.Sequential(*layers)
 
-    def _make_MG_unit(self, block: Type[Union[BasicBlock, Bottleneck]], planes: int, blocks: int,
-                      stride: int = 1, dilate: bool = False) -> nn.Sequential:
+    def _make_MG_unit(self, block: Type[Union[BasicBlock, Bottleneck]], planes: int, blocks: List[int],
+                      stride: int = 1, dilate: int = 1) -> nn.Sequential:
         norm_layer = self._norm_layer
         downsample = None
         if stride != 1 or self.inplanes != planes * block.expansion:
@@ -247,7 +247,7 @@ class ResNet(nn.Module):
         self.inplanes = planes * block.expansion
         for i in range(1, len(blocks)):
             layers.append(block(self.inplanes, planes, groups=self.groups,
-                                base_width=self.base_width, dilation=blocks[i] * dilation,
+                                base_width=self.base_width, dilation=blocks[i] * dilate,
                                 norm_layer=norm_layer))
 
         return nn.Sequential(*layers)
@@ -301,17 +301,6 @@ def _resnet(
     else:
         pass
     return model
-
-
-def resnet18(data: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> ResNet:
-    r"""ResNet-18 model from
-    `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
-    Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
-        progress (bool): If True, displays a progress bar of the download to stderr
-    """
-    return _resnet('resnet18', BasicBlock, [2, 2, 2, 2], data, pretrained, progress,
-                   **kwargs)
 
 
 def resnet34(data: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> ResNet:

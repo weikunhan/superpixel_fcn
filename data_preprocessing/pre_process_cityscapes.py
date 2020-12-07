@@ -66,7 +66,7 @@ def generate_image_dataset(train_data_dir_out, val_data_dir_out,
                           desc='Start train image proccessing'):
         folder_name = file_path.split(os.path.sep)[-2]
         temp_folder_path = os.path.join(train_data_dir_out, folder_name)
-        file_name = file_path.split(os.path.sep)[-1].split('.')[0] + '_img.jpg'
+        file_name = file_path.split(os.path.sep)[-1].split('.')[0][:-12] + '_img.jpg'
         temp_file_path = os.path.join(temp_folder_path, file_name)
 
         if not os.path.exists(temp_folder_path):
@@ -78,7 +78,7 @@ def generate_image_dataset(train_data_dir_out, val_data_dir_out,
                           desc='Start val image proccessing'):
         folder_name = file_path.split(os.path.sep)[-2]
         temp_folder_path = os.path.join(val_data_dir_out, folder_name)
-        file_name = file_path.split(os.path.sep)[-1].split('.')[0] + '_img.jpg'
+        file_name = file_path.split(os.path.sep)[-1].split('.')[0][:-12] + '_img.jpg'
         temp_file_path = os.path.join(temp_folder_path, file_name)
 
         if not os.path.exists(temp_folder_path):
@@ -94,14 +94,14 @@ def generate_label_dataset(train_data_dir_out, val_data_dir_out,
     for file_path in tqdm(lable_train_list, total= len(lable_train_list), 
                            desc='Start train label proccessing'):
         folder_name = file_path.split(os.path.sep)[-2]
-        file_name = file_path.split(os.path.sep)[-1].split('.')[0] + '_label.png'
+        file_name = file_path.split(os.path.sep)[-1].split('.')[0][:-16] + '_label.png'
         temp_file_path = os.path.join(train_data_dir_out, folder_name, file_name)
         shutil.copyfile(file_path, temp_file_path)
 
     for file_path in tqdm(label_val_list, total= len(label_val_list), 
                           desc='Start val label proccessing'):
         folder_name = file_path.split(os.path.sep)[-2]
-        file_name = file_path.split(os.path.sep)[-1].split('.')[0] + '_label.png'
+        file_name = file_path.split(os.path.sep)[-1].split('.')[0][:-16] + '_label.png'
         temp_file_path = os.path.join(val_data_dir_out, folder_name, file_name)
         shutil.copyfile(file_path, temp_file_path)
     

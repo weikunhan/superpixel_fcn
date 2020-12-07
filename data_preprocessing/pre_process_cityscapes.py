@@ -74,7 +74,6 @@ def generate_image_dataset(train_data_dir_out, val_data_dir_out,
         
         pool.apply_async(save_images, (file_path, temp_file_path))
 
-
     for file_path in tqdm(image_val_list, total= len(image_val_list), 
                           desc='Start val image proccessing'):
         folder_name = file_path.split(os.path.sep)[-2]

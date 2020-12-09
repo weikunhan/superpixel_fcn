@@ -39,9 +39,9 @@ class Conv(nn.Sequential):
 class Deconv(nn.Sequential):
     def __init__(self, in_channels, out_channels):
         modules = [
-            nn.ConvTranspose2d(in_planes, out_planes, kernel_size=4, stride=2, padding=1),
+            nn.ConvTranspose2d(in_channels, out_channels, kernel_size=4, stride=2, padding=1),
             nn.LeakyReLU(0.1)]
-        super(Conv, self).__init__(*modules)
+        super(Deconv, self).__init__(*modules)
 
 
 class SpixelNet(nn.Module):

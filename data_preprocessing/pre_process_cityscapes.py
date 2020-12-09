@@ -117,10 +117,10 @@ def main():
     val_data_dir_out = os.path.join(data_dir_out, 'val')
 
     if not os.path.exists(train_data_dir_out):
-        os.mkdir(train_data_dir_out)
+        os.makedirs(train_data_dir_out)
 
     if not os.path.exists(val_data_dir_out):
-        os.mkdir(val_data_dir_out)
+        os.makedirs(val_data_dir_out)
 
     image_train_list, image_val_list = make_dataset(image_data_dir_in, image_flag=True)
     lable_train_list, label_val_list = make_dataset(label_data_dir_in, image_flag=False)

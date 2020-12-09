@@ -24,7 +24,7 @@ def predict_mask(in_planes, out_planes):
 
 class Conv(nn.Sequential):
     def __init__(self, in_channels, out_channels, kernel_size, stride, batch_norm_flag):
-        if batch_norm_flag
+        if batch_norm_flag:
             modules = [
                 nn.Conv2d(in_channels, out_channels, kernel_size=kernel_size, stride=stride, padding=(kernel_size - 1) // 2, bias=False),
                 nn.BatchNorm2d(out_channels),
@@ -118,7 +118,7 @@ def _spixelnet(arch, data, pretrained, **kwargs):
     
     if data:
         model.load_state_dict(data['state_dict'])
-    else if pretrained:
+    elif pretrained:
         if torch.cuda.is_available():
             data = torch.load(model_paths[arch])
         else: 
@@ -131,7 +131,7 @@ def _spixelnet(arch, data, pretrained, **kwargs):
     return model
 
 def spixelnet_bn(data, pretrained=False, **kwargs):
-    return _spixelnet('spixelnet_bn', pretrained, batch_norm_flag=True, **kwargs)
+    return _spixelnet('spixelnet_bn', data, pretrained, batch_norm_flag=True, **kwargs)
 
 def spixelnet(data, pretrained=False, **kwargs):
-    return _spixelnet('spixelnet', pretrained, batch_norm_flag=False, **kwargs)
+    return _spixelnet('spixelnet', data, pretrained, batch_norm_flag=False, **kwargs)

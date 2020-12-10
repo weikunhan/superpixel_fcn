@@ -53,7 +53,7 @@ parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',help='nu
 parser.add_argument('--epochs', default=3000000, type=int, metavar='N', help='number of total epoches, make it big enough to follow the iteration maxmium')
 parser.add_argument('--start_epoch', default=0, type=int, metavar='N',  help='manual epoch number (useful on restarts)')
 parser.add_argument('--epoch_size', default= 6000,  help='choose any value > 408 to use all the train and val data')
-parser.add_argument('-b', '--batch-size', default=4, type=int,   metavar='N', help='mini-batch size')
+parser.add_argument('-b', '--batch-size', default=6, type=int,   metavar='N', help='mini-batch size')
 
 parser.add_argument('--solver', default='adam',choices=['adam','sgd'], help='solver algorithms, we use adam')
 parser.add_argument('--lr', '--learning-rate', default=0.00005, type=float,metavar='LR', help='initial learning rate')

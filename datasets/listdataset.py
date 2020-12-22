@@ -15,8 +15,7 @@ class ListDataset(data.Dataset):
 
     def __getitem__(self, index):
         img_path = self.img_path_list[index][:-1]
-        # We do not consider other datsets in this work
-        assert self.dataset == 'bsd500'
+        
         assert (self.transform is not None) and (self.target_transform is not None)
 
         inputs, label = self.loader(img_path, img_path.replace('_img.jpg', '_label.png'))

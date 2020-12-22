@@ -1,3 +1,3 @@
 from .Spixel_single_layer import *
-from .spixelnet_resnet import *
+from .spixelresnet import *
 from .spixelnet import * 

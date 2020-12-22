@@ -23,20 +23,20 @@ from .aspp import ASPP
 from .decoder import Decoder
 
 
-__all__ = ['ResNet', 'resnet34', 'resnet50', 'resnet101',
-           'resnet152', 'resnext50_32x4d', 'resnext101_32x8d',
-           'wide_resnet50_2', 'wide_resnet101_2']
+__all__ = ['SpixelResNet', 'spixelresnet34', 'spixelresnet50', 'spixelresnet101',
+           'spixelresnet152', 'spixelresnext50_32x4d', 'spixelresnext101_32x8d',
+           'spixel_wide_resnet50_2', 'spixel_wide_resnet101_2']
 
 
 model_urls = {
-    'resnet34': 'https://download.pytorch.org/models/resnet34-333f7ec4.pth',
-    'resnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
-    'resnet101': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
-    'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
-    'resnext50_32x4d': 'https://download.pytorch.org/models/resnext50_32x4d-7cdf4587.pth',
-    'resnext101_32x8d': 'https://download.pytorch.org/models/resnext101_32x8d-8ba56ff5.pth',
-    'wide_resnet50_2': 'https://download.pytorch.org/models/wide_resnet50_2-95faca4d.pth',
-    'wide_resnet101_2': 'https://download.pytorch.org/models/wide_resnet101_2-32ee1156.pth',
+    'spixelresnet34': 'https://download.pytorch.org/models/resnet34-333f7ec4.pth',
+    'spixelresnet50': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
+    'spixelresnet101': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
+    'spixelresnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
+    'spixelresnext50_32x4d': 'https://download.pytorch.org/models/resnext50_32x4d-7cdf4587.pth',
+    'spixelresnext101_32x8d': 'https://download.pytorch.org/models/resnext101_32x8d-8ba56ff5.pth',
+    'spixel_wide_resnet50_2': 'https://download.pytorch.org/models/wide_resnet50_2-95faca4d.pth',
+    'spixel_wide_resnet101_2': 'https://download.pytorch.org/models/wide_resnet101_2-32ee1156.pth',
 }
 
 
@@ -158,7 +158,7 @@ class Bottleneck(nn.Module):
         return out
 
 
-class ResNet(nn.Module):
+class SpixelResNet(nn.Module):
 
     def __init__(
         self,
@@ -170,7 +170,7 @@ class ResNet(nn.Module):
         width_per_group: int = 64,
         norm_layer: Optional[Callable[..., nn.Module]] = None
     ) -> None:
-        super(ResNet, self).__init__()
+        super(SpixelResNet, self).__init__()
         if norm_layer is None:
             norm_layer = nn.BatchNorm2d
         self._norm_layer = norm_layer
@@ -287,8 +287,8 @@ def _resnet(
     pretrained: bool,
     progress: bool,
     **kwargs: Any
-) -> ResNet:
-    model = ResNet(block, layers, **kwargs)
+) -> SpixelResNet:
+    model = SpixelResNet(block, layers, **kwargs)
     if checkpoint:
         model.load_state_dict(checkpoint['state_dict'])
     elif pretrained:
@@ -302,51 +302,51 @@ def _resnet(
     return model
 
 
-def resnet34(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> ResNet:
+def spixelresnet34(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> SpixelResNet:
     r"""ResNet-34 model from
     `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet('resnet34', BasicBlock, [3, 4, 6, 3], checkpoint, pretrained, progress,
+    return _resnet('spixelresnet34', BasicBlock, [3, 4, 6, 3], checkpoint, pretrained, progress,
                    **kwargs)
 
 
-def resnet50(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> ResNet:
+def spixelresnet50(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> SpixelResNet:
     r"""ResNet-50 model from
     `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet('resnet50', Bottleneck, [3, 4, 6, 3], checkpoint, pretrained, progress,
+    return _resnet('spixelresnet50', Bottleneck, [3, 4, 6, 3], checkpoint, pretrained, progress,
                    **kwargs)
 
 
-def resnet101(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> ResNet:
+def spixelresnet101(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> SpixelResNet:
     r"""ResNet-101 model from
     `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet('resnet101', Bottleneck, [3, 4, 23, 3], checkpoint, pretrained, progress,
+    return _resnet('spixelresnet101', Bottleneck, [3, 4, 23, 3], checkpoint, pretrained, progress,
                    **kwargs)
 
 
-def resnet152(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> ResNet:
+def spixelresnet152(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> SpixelResNet:
     r"""ResNet-152 model from
     `"Deep Residual Learning for Image Recognition" <https://arxiv.org/pdf/1512.03385.pdf>`_
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
         progress (bool): If True, displays a progress bar of the download to stderr
     """
-    return _resnet('resnet152', Bottleneck, [3, 8, 36, 3], checkpoint, pretrained, progress,
+    return _resnet('spixelresnet152', Bottleneck, [3, 8, 36, 3], checkpoint, pretrained, progress,
                    **kwargs)
 
 
-def resnext50_32x4d(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> ResNet:
+def spixelresnext50_32x4d(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> SpixelResNet:
     r"""ResNeXt-50 32x4d model from
     `"Aggregated Residual Transformation for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_
     Args:
@@ -355,11 +355,11 @@ def resnext50_32x4d(checkpoint: dict, pretrained: bool = False, progress: bool =
     """
     kwargs['groups'] = 32
     kwargs['width_per_group'] = 4
-    return _resnet('resnext50_32x4d', Bottleneck, [3, 4, 6, 3], checkpoint, 
+    return _resnet('spixelresnext50_32x4d', Bottleneck, [3, 4, 6, 3], checkpoint, 
                    pretrained, progress, **kwargs)
 
 
-def resnext101_32x8d(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> ResNet:
+def spixelresnext101_32x8d(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> SpixelResNet:
     r"""ResNeXt-101 32x8d model from
     `"Aggregated Residual Transformation for Deep Neural Networks" <https://arxiv.org/pdf/1611.05431.pdf>`_
     Args:
@@ -368,11 +368,11 @@ def resnext101_32x8d(checkpoint: dict, pretrained: bool = False, progress: bool 
     """
     kwargs['groups'] = 32
     kwargs['width_per_group'] = 8
-    return _resnet('resnext101_32x8d', Bottleneck, [3, 4, 23, 3], checkpoint, 
+    return _resnet('spixelresnext101_32x8d', Bottleneck, [3, 4, 23, 3], checkpoint, 
                    pretrained, progress, **kwargs)
 
 
-def wide_resnet50_2(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> ResNet:
+def spixel_wide_resnet50_2(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> SpixelResNet:
     r"""Wide ResNet-50-2 model from
     `"Wide Residual Networks" <https://arxiv.org/pdf/1605.07146.pdf>`_
     The model is the same as ResNet except for the bottleneck number of channels
@@ -384,11 +384,11 @@ def wide_resnet50_2(checkpoint: dict, pretrained: bool = False, progress: bool =
         progress (bool): If True, displays a progress bar of the download to stderr
     """
     kwargs['width_per_group'] = 64 * 2
-    return _resnet('wide_resnet50_2', Bottleneck, [3, 4, 6, 3], checkpoint, 
+    return _resnet('spixel_wide_resnet50_2', Bottleneck, [3, 4, 6, 3], checkpoint, 
                    pretrained, progress, **kwargs)
 
 
-def wide_resnet101_2(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> ResNet:
+def spixel_wide_resnet101_2(checkpoint: dict, pretrained: bool = False, progress: bool = True, **kwargs: Any) -> SpixelResNet:
     r"""Wide ResNet-101-2 model from
     `"Wide Residual Networks" <https://arxiv.org/pdf/1605.07146.pdf>`_
     The model is the same as ResNet except for the bottleneck number of channels
@@ -400,5 +400,5 @@ def wide_resnet101_2(checkpoint: dict, pretrained: bool = False, progress: bool 
         progress (bool): If True, displays a progress bar of the download to stderr
     """
     kwargs['width_per_group'] = 64 * 2
-    return _resnet('wide_resnet101_2', Bottleneck, [3, 4, 23, 3], checkpoint, 
+    return _resnet('spixel_wide_resnet101_2', Bottleneck, [3, 4, 23, 3], checkpoint, 
                    pretrained, progress, **kwargs)

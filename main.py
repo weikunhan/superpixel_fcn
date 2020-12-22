@@ -36,7 +36,7 @@ parser = argparse.ArgumentParser(description='PyTorch SpixelFCN Training on BSDS
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
 # ================ training setting ====================
-parser.add_argument('--dataset', metavar='DATASET', default='BSD500',  choices=dataset_names,
+parser.add_argument('--dataset', metavar='DATASET', default='Cityscapes',  choices=dataset_names,
                     help='dataset type : ' +  ' | '.join(dataset_names))
 parser.add_argument('--arch', '-a', metavar='ARCH', default='SpixelNet1l_bn',  help='model architecture')
 parser.add_argument('--data', metavar='DIR',default='', help='path to input dataset')
@@ -75,8 +75,7 @@ parser.add_argument('--record_freq', '-rf', default=5, type=int,  help='record f
 parser.add_argument('--label_factor', default=5, type=int, help='constant multiplied to label index for viz.')
 parser.add_argument('--pretrained', dest='pretrained', default=None, help='path to pre-trained model')
 parser.add_argument('--no-date', action='store_true',  help='don\'t append date timestamp to folder' )
-parser.add_argument('--load_weights', action='store_true', help='use pretrained ResNet Layer 1')
-
+parser.add_argument('--load_weights', action='store_true', help='use to load pretrained mdoel (only work for SpixelNet and SpixelResNet)')
 
 
 best_EPE = -1

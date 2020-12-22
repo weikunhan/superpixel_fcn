@@ -36,15 +36,15 @@ parser = argparse.ArgumentParser(description='PyTorch SpixelFCN Training on BSDS
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
 # ================ training setting ====================
-parser.add_argument('--dataset', metavar='DATASET', default='Cityscapes',  choices=dataset_names,
+parser.add_argument('--dataset', metavar='DATASET', default='BSD500',  choices=dataset_names,
                     help='dataset type : ' +  ' | '.join(dataset_names))
 parser.add_argument('--arch', '-a', metavar='ARCH', default='SpixelNet1l_bn',  help='model architecture')
 parser.add_argument('--data', metavar='DIR',default='', help='path to input dataset')
 parser.add_argument('--savepath',default='', help='path to save ckpt')
 
 
-parser.add_argument('--train_img_height', '-t_imgH', default=768,  type=int, help='img height')
-parser.add_argument('--train_img_width', '-t_imgW', default=768, type=int, help='img width')
+parser.add_argument('--train_img_height', '-t_imgH', default=208,  type=int, help='img height')
+parser.add_argument('--train_img_width', '-t_imgW', default=208, type=int, help='img width')
 parser.add_argument('--input_img_height', '-v_imgH', default=320, type=int, help='img height_must be 16*n')  #
 parser.add_argument('--input_img_width', '-v_imgW', default=320,  type=int, help='img width must be 16*n')
 

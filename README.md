@@ -27,7 +27,7 @@ python run_demo.py --data_dir=./demo/inputs --data_suffix=jpg --output=./demo
 The results will be generate in a new folder under ```/demo``` called ```spixel_viz```.
 
  
-## Data preparation 
+## Data preparation - BSDS500
 To generate training and test dataset, please first download the data from the original [BSDS500 dataset](http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/BSR/BSR_full.tgz), 
 and extract it to  ```<BSDS_DIR>```. Then, run 
 ```
@@ -39,11 +39,37 @@ cd ..
 The code will generate three folders under the ```<DUMP_DIR>```, named as ```/train```, ```/val```, and ```/test```, and three ```.txt``` files 
 record the absolute path of the images, named as ```train.txt```, ```val.txt```, and ```test.txt```.
 
+## Data preparation - Cityscapes
+To generate training and validation dataset for Cityscape, please first download the data from the original [Cityscapes Dataset](https://www.cityscapes-dataset.com/). You need to create an account and download 1)gtFine_trainvaltest.zip (241MB) 2)leftImg8bit_trainvaltest.zip (11GB). Next, extract gtFine_trainvaltest.zip and leftImg8bit_trainvaltest.zip and copy folders "gtFine" and "leftImg8bit" to ```<CITYSCAPES_DIR>```. The ```<CITYSCAPES_DIR>``` should have two folders named "gtFine" and "leftImg8bit". Then, run 
+```
+cd data_preprocessing
+python pre_process_cityscapes.py --dataset=<CITYSCAPES_DIR> --dump_root=<DUMP_DIR>
+cd ..
+```
+The code will generate three folders under the ```<DUMP_DIR>```, named as ```/train``` and ```/val```, and two ```.txt``` files 
+record the absolute path of the images, named as ```train.txt``` and ```val.txt```.
+
 
 ## Training
 Once the data is prepared, we should be able to train the model by running the following command
 ```
-python main.py --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --arch=resnet50 --load_weights
+# Traning model on BSD500 use default model and original setting
+python main.py --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR>
+
+# Traning model on BSD500 use SpixelNet model and setting (--load_weights is optional for loading the pretrain model)
+python main.py --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --arch=spixelnet_bn --load_weights
+
+# Traning model on BSD500 use SpixelResNet model and setting (--load_weights is optional for loading the pretrain ResNet layers)
+python main.py --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --arch=spixelresnet50 --load_weights
+
+# Traning model on Cityscapes use default model and original setting
+python main.py --dataset='Cityscapes' --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --train_img_height=768 --train_img_width=768
+
+# Traning model on Cityscapes use SpixelNet model and setting (--load_weights is optional for loading the pretrain model)
+python main.py --dataset='Cityscapes' --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --arch=spixelnet_bn --train_img_height=768 --train_img_width=768 --load_weights
+
+# Traning model on Cityscapes use SpixelResNet model and setting (--load_weights is optional for loading the pretrain ResNet layers)
+python main.py --dataset='Cityscapes' --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --arch=spixelresnet50 --train_img_height=768 --train_img_width=768 --load_weights
 ```
 
 if we wish to continue a train process or fine-tune from a pre-trained model, we can run 

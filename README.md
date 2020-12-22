@@ -63,13 +63,13 @@ python main.py --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --arch=spixelnet_bn -
 python main.py --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --arch=spixelresnet50 --load_weights
 
 # Traning model on Cityscapes use default model and original setting
-python main.py --dataset='Cityscapes' --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --train_img_height=768 --train_img_width=768
+python main.py --dataset=Cityscapes --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --train_img_height=768 --train_img_width=768
 
 # Traning model on Cityscapes use SpixelNet model and setting (--load_weights is optional for loading the pretrain model)
-python main.py --dataset='Cityscapes' --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --arch=spixelnet_bn --train_img_height=768 --train_img_width=768 --load_weights
+python main.py --dataset=Cityscapes --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --arch=spixelnet_bn --train_img_height=768 --train_img_width=768 --load_weights
 
 # Traning model on Cityscapes use SpixelResNet model and setting (--load_weights is optional for loading the pretrain ResNet layers)
-python main.py --dataset='Cityscapes' --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --arch=spixelresnet50 --train_img_height=768 --train_img_width=768 --load_weights
+python main.py --dataset=Cityscapes --data=<DUMP_DIR> --savepath=<CKPT_LOG_DIR> --arch=spixelresnet50 --train_img_height=768 --train_img_width=768 --load_weights
 ```
 
 if we wish to continue a train process or fine-tune from a pre-trained model, we can run 

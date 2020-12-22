@@ -163,9 +163,9 @@ def main():
         print("=> creating model '{}'".format(args.arch))
 
     if args.load_weights:
-        model = models.__dict__[args.arch](data=network_data, pretrained=True).cuda()
+        model = models.__dict__[args.arch](network_data, pretrained=True).cuda()
     else:
-        model = models.__dict__[args.arch](data=network_data).cuda()
+        model = models.__dict__[args.arch](network_data).cuda()
 
     model = torch.nn.DataParallel(model).cuda()
     cudnn.benchmark = True

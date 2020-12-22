@@ -113,25 +113,25 @@ class SpixelNet(nn.Module):
         return [param for name, param in self.named_parameters() if 'bias' in name]
 
 
-def _spixelnet(arch, data, pretrained, **kwargs):
+def _spixelnet(arch, checkpoint, pretrained, **kwargs):
     model = SpixelNet(**kwargs)
     
-    if data:
-        model.load_state_dict(data['state_dict'])
+    if checkpoint:
+        model.load_state_dict(checkpoint['state_dict'])
     elif pretrained:
         if torch.cuda.is_available():
-            data = torch.load(model_paths[arch])
+            checkpoint = torch.load(model_paths[arch])
         else: 
-            data = torch.load(model_paths[arch], map_location=torch.device('cpu'))
+            checkpoint = torch.load(model_paths[arch], map_location=torch.device('cpu'))
         
-        model.load_state_dict(data['state_dict'])
+        model.load_state_dict(checkpoint['state_dict'])
     else:
         pass
 
     return model
 
-def spixelnet_bn(data, pretrained=False, **kwargs):
-    return _spixelnet('spixelnet_bn', data, pretrained, batch_norm_flag=True, **kwargs)
+def spixelnet_bn(checkpoint, pretrained=False, **kwargs):
+    return _spixelnet('spixelnet_bn', checkpoint, pretrained, batch_norm_flag=True, **kwargs)
 
-def spixelnet(data, pretrained=False, **kwargs):
-    return _spixelnet('spixelnet', data, pretrained, batch_norm_flag=False, **kwargs)
+def spixelnet(checkpoint, pretrained=False, **kwargs):
+    return _spixelnet('spixelnet', checkpoint, pretrained, batch_norm_flag=False, **kwargs)
